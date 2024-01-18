@@ -7,5 +7,6 @@ class Legend(
     val defense: Int,
     val dexterity: Int,
     val speed: Int,
-    val description: String)
+    val description: String,
+    val image: Int)
 {}

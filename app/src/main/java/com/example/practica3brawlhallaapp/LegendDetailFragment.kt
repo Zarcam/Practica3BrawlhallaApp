@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 
 class LegendDetailFragment : Fragment() {
@@ -37,9 +36,7 @@ class LegendDetailFragment : Fragment() {
 
             v.findViewById<TextView>(R.id.detailLegendDesc).text = it.description
 
-            v.findViewById<ImageView>(R.id.legendImage)
-
-            //TODO: Cambiar imagen
+            v.findViewById<ImageView>(R.id.legendImage).setImageResource(it.image)
         }
 
         return v
