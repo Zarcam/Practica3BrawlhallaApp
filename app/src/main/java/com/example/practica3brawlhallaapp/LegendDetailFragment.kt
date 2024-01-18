@@ -1,12 +1,14 @@
 package com.example.practica3brawlhallaapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 
 class LegendDetailFragment : Fragment() {
@@ -17,12 +19,7 @@ class LegendDetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        v = inflater.inflate(R.layout.fragment_legend_detail, container, false)
-
+    public fun update(){
         this.legendViewModel.selected?.let {
             v.findViewById<TextView>(R.id.legendDetailName).text = it.name
 
@@ -38,6 +35,20 @@ class LegendDetailFragment : Fragment() {
 
             v.findViewById<ImageView>(R.id.legendImage).setImageResource(it.image)
         }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        v = inflater.inflate(R.layout.fragment_legend_detail, container, false)
+
+        if(resources.getBoolean(R.bool.land)){
+            val fragmentManager = parentFragmentManager
+            fragmentManager.popBackStack()
+        }
+
+        this.update()
 
         return v
     }

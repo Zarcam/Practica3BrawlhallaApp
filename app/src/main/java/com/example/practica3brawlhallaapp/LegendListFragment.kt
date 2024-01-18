@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.GridLayoutManager
@@ -29,9 +30,19 @@ class LegendListFragment : Fragment() {
         adaptador.click = {position, legend -> run{
             this.legendViewModel.selected = legend
             val fm = parentFragmentManager
-            fm.commit {
-                replace(R.id.fragmentContainerView, LegendDetailFragment.newInstance())
-                addToBackStack("replacement")
+
+            if(!resources.getBoolean(R.bool.land)) {
+                fm.commit {
+                    replace(R.id.fragmentContainerView, LegendDetailFragment.newInstance())
+                    addToBackStack("replacement")
+                }
+            }else{
+                val contenedor = v.findViewById<FragmentContainerView>(R.id.detailFragmentContainer)
+                val fragmentManager = childFragmentManager
+                val fragment = fragmentManager.findFragmentById(contenedor?.id ?: -1)
+                if(fragment != null && fragment is LegendDetailFragment){
+                    (fragment as LegendDetailFragment).update()
+                }
             }
         }}
         val layourManager = GridLayoutManager(this.context, 1)
