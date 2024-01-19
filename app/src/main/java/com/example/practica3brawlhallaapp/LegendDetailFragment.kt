@@ -20,6 +20,10 @@ class LegendDetailFragment : Fragment() {
     }
 
     public fun update(){
+        if(this.legendViewModel.selected == null){
+            v.findViewById<ImageView>(R.id.legendImage).setImageResource(R.drawable.randombrawl)
+        }
+
         this.legendViewModel.selected?.let {
             v.findViewById<TextView>(R.id.legendDetailName).text = it.name
 

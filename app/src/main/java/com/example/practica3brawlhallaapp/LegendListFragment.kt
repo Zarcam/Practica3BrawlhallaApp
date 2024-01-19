@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class LegendListFragment : Fragment() {
     private lateinit var v: View
@@ -24,12 +25,12 @@ class LegendListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_list, container, false)
+        val fm = parentFragmentManager
 
         val recyclerView = v.findViewById<RecyclerView>(R.id.recyclerview)
         var adaptador = LegendRecycleViewAdapter(this.legendViewModel.legends)
         adaptador.click = {position, legend -> run{
             this.legendViewModel.selected = legend
-            val fm = parentFragmentManager
 
             if(!resources.getBoolean(R.bool.land)) {
                 fm.commit {
@@ -45,6 +46,15 @@ class LegendListFragment : Fragment() {
                 }
             }
         }}
+
+        val addLegend = v.findViewById<FloatingActionButton>(R.id.addLegendButton)
+        addLegend.setOnClickListener{
+            fm.commit {
+                replace(R.id.fragmentContainerView, AddLegendFragment.newInstance())
+                addToBackStack("replacement")
+            }
+        }
+
         val layourManager = GridLayoutManager(this.context, 1)
         recyclerView.layoutManager = layourManager
         recyclerView.adapter = adaptador
