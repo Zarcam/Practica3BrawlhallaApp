@@ -13,9 +13,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 
 class AddLegendFragment : Fragment() {
+    private lateinit var v: View
     private val legendViewModel: LegendViewModel by activityViewModels()
     private val DEFAULT_IMAGE_URI = Uri.parse("android.resource://com.example.practica3brawlhallaapp/drawable/randombrawl")
     private var newLegendImageUri: Uri? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +27,7 @@ class AddLegendFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v = inflater.inflate(R.layout.fragment_add_legend, container, false)
+        v = inflater.inflate(R.layout.fragment_add_legend, container, false)
         val fm = parentFragmentManager
 
         val selectImage = registerForActivityResult(ActivityResultContracts.GetContent()){
@@ -34,8 +36,6 @@ class AddLegendFragment : Fragment() {
                 v.findViewById<ImageView>(R.id.newLegendImage).setImageURI(it)
             }
         }
-
-
 
         //Cancel
         v.findViewById<Button>(R.id.newLegendCancel).setOnClickListener{
@@ -49,7 +49,7 @@ class AddLegendFragment : Fragment() {
 
         //Confirm
         v.findViewById<Button>(R.id.newLegendConfirm).setOnClickListener{
-            var newLegend = validateForm(v)
+            var newLegend = validateForm()
             if(newLegend != null){
                 legendViewModel.add(newLegend)
                 fm.popBackStack()
@@ -59,7 +59,7 @@ class AddLegendFragment : Fragment() {
         return v
     }
 
-    private fun validateForm(v: View): Legend?{
+    private fun validateForm(): Legend?{
         val newLegendName = v.findViewById<TextView>(R.id.newLegendName)
 
         val newLegendWeapon1 = v.findViewById<TextView>(R.id.newLegendWeapon1)
@@ -69,7 +69,6 @@ class AddLegendFragment : Fragment() {
         val newLegendDef = v.findViewById<TextView>(R.id.newLegendDefense)
         val newLegendDex = v.findViewById<TextView>(R.id.newLegendDexterity)
         val newLegendSpe = v.findViewById<TextView>(R.id.newLegendSpeed)
-
         val stats = arrayOf(newLegendDmg, newLegendDef, newLegendDex, newLegendSpe)
 
         val newLegendDesc = v.findViewById<TextView>(R.id.newLegendDescription)

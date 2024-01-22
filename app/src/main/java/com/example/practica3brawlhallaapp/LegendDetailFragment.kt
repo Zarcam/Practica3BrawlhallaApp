@@ -1,14 +1,12 @@
 package com.example.practica3brawlhallaapp
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 
 class LegendDetailFragment : Fragment() {
@@ -48,8 +46,8 @@ class LegendDetailFragment : Fragment() {
         v = inflater.inflate(R.layout.fragment_legend_detail, container, false)
 
         if(resources.getBoolean(R.bool.land)){
-            val fragmentManager = parentFragmentManager
-            fragmentManager.popBackStack()
+            val fm = parentFragmentManager
+            fm.popBackStack()
         }
 
         this.update()

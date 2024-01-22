@@ -11,4 +11,3 @@ class Legend(
     val speed: Int,
     val description: String,
     val image: Uri)
-{}
