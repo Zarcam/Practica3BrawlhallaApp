@@ -1,5 +1,7 @@
 package com.example.practica3brawlhallaapp
 
+import android.net.Uri
+
 class Legend(
     val name: String,
     val weapons: Array<String>,
@@ -8,5 +10,5 @@ class Legend(
     val dexterity: Int,
     val speed: Int,
     val description: String,
-    val image: Int)
+    val image: Uri)
 {}

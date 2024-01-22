@@ -37,7 +37,7 @@ class LegendDetailFragment : Fragment() {
 
             v.findViewById<TextView>(R.id.detailLegendDesc).text = it.description
 
-            v.findViewById<ImageView>(R.id.legendImage).setImageResource(it.image)
+            v.findViewById<ImageView>(R.id.legendImage).setImageURI(it.image)
         }
     }
 
