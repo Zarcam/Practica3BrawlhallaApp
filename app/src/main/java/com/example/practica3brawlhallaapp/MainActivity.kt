@@ -14,11 +14,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //Establecemos que la barra de herramientas sea la ActionBar
+        //y que muestre el boton de retroceder
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        //Cuando se presione el boton de retroceso de la barra de herramientas
+        //se actuará como si hubiera pulsado el boton de retroceso normal
         if(item.itemId == android.R.id.home){
             onBackPressedDispatcher.onBackPressed()
         }

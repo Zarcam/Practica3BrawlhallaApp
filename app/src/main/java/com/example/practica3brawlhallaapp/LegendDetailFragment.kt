@@ -17,11 +17,19 @@ class LegendDetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    /**
+     * Actualiza el framento de detalles para que sus campos tomen los valores
+     * del personaje seleccionado
+     *
+     * @see LegendViewModel.selected
+     */
     public fun update(){
+        //Si no hay un personaje seleccionado la imagen se establece a una predefinida
         if(this.legendViewModel.selected == null){
             v.findViewById<ImageView>(R.id.legendImage).setImageResource(R.drawable.randombrawl)
         }
 
+        //Se establecen los campos del fragmento para que sean los valores del personaje seleccionado
         this.legendViewModel.selected?.let {
             v.findViewById<TextView>(R.id.legendDetailName).text = it.name
 
@@ -45,6 +53,9 @@ class LegendDetailFragment : Fragment() {
     ): View? {
         v = inflater.inflate(R.layout.fragment_legend_detail, container, false)
 
+        //Si al cargar este fragmento la orientacion es horizontal volveremos al fragmento anterior (LegendListFragment),
+        //esto pasará si en el FragmentContainerView en el que se encuentra este fragmento tiene
+        //otros fragmentos apilados
         if(resources.getBoolean(R.bool.land)){
             val fm = parentFragmentManager
             fm.popBackStack()

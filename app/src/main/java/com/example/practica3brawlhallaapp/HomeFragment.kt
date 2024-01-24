@@ -21,9 +21,11 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        //Infla el layour de este fragmento
         view = inflater.inflate(R.layout.fragment_home, container, false)
 
+        //Cuando se pulse la imagen se pasará al siguiente fragmento que es LegendListFragment
+        //Y este fragmento pasará a estar debajo en la pila
         view.findViewById<ImageView>(R.id.main_icon).setOnClickListener {
             val fm: FragmentManager = parentFragmentManager
             fm.commit {

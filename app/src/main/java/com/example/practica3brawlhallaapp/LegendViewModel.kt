@@ -1,28 +1,33 @@
 package com.example.practica3brawlhallaapp
 
-import android.media.Image
 import android.net.Uri
 import androidx.lifecycle.ViewModel
-import java.io.File
 
 class LegendViewModel : ViewModel() {
-    private var _legends: MutableList<Legend>
+    private var _legends: MutableList<Legend> = mutableListOf()
     private var _selected: Legend? = null
 
+    //Estos parametros son usados para que otras clases no accedan directamente
+    //a los parametros reales
     val legends: List<Legend>
         get() = _legends.toList()
     var selected: Legend?
         get() = _selected
         set(item){_selected=item}
 
+    /**
+     * Añade un personaje a la lista
+     *
+     * @param legend El personaje que se va a añadir
+     */
     fun add(legend: Legend){
         this._legends.add(legend)
     }
 
     private val drawablePath = "android.resource://com.example.practica3brawlhallaapp/drawable/"
 
+    //Añadimos unos cuantos personajes a la lista
     init{
-        this._legends = mutableListOf()
         this._legends.add(
             Legend("Mako", arrayOf("Katars", "Greatsword"), 6, 4, 4, 8,
                 "Of all the children of Poseidon and The Sea, the largest is Kraken, the strongest is Maelstrom, but the most feared is Mako",

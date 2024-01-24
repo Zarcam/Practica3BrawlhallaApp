@@ -21,6 +21,7 @@ class LegendRecycleViewAdapter(private val legends: List<Legend>): RecyclerView.
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = legends[position]
 
+        //Establecemos los campos del ViewHolder a los valores de cada personaje
         holder.legendName.text = item.name
         holder.damageStat.text = item.damage.toString()
         holder.defenseStat.text = item.defense.toString()
@@ -31,7 +32,7 @@ class LegendRecycleViewAdapter(private val legends: List<Legend>): RecyclerView.
         holder.weapon2.text = item.weapons[1]
 
         holder.detailsButton.setOnClickListener {
-            this.click?.let { it1 -> it1(position, legends[position]) }
+            this.click?.let {it1 -> it1(position, legends[position])}
         }
     }
 

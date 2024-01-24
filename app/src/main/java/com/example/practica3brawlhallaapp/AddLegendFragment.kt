@@ -15,7 +15,9 @@ import androidx.fragment.app.activityViewModels
 class AddLegendFragment : Fragment() {
     private lateinit var v: View
     private val legendViewModel: LegendViewModel by activityViewModels()
+    //Imagen que se mostrará y asignará por defecto si no se selecciona otra
     private val DEFAULT_IMAGE_URI = Uri.parse("android.resource://com.example.practica3brawlhallaapp/drawable/randombrawl")
+    //Imagen seleccionada desde la galeria que se asignará al nuevo personaje
     private var newLegendImageUri: Uri? = null
 
 
@@ -30,6 +32,7 @@ class AddLegendFragment : Fragment() {
         v = inflater.inflate(R.layout.fragment_add_legend, container, false)
         val fm = parentFragmentManager
 
+        //Registramos un activity result para seleccionar fotos desde la galeria
         val selectImage = registerForActivityResult(ActivityResultContracts.GetContent()){
             if(it != null) {
                 newLegendImageUri = it!!
@@ -37,21 +40,22 @@ class AddLegendFragment : Fragment() {
             }
         }
 
-        //Cancel
+        //Cancela la creación y vuelve al fragmento anterior al hacer click en el boton cancelar
         v.findViewById<Button>(R.id.newLegendCancel).setOnClickListener{
             fm.popBackStack()
         }
 
-        //Search image
+        //LLama al activityResult para seleccionar una imagen al hacer click en el boton de buscar imagen
         v.findViewById<Button>(R.id.newLegendSearchImage).setOnClickListener{
             selectImage.launch("image/*")
         }
 
-        //Confirm
+        //Valida los campos del formulario y si es correcto añade el nuevo personaje a la lista
+        //del viewModel y vuelve al fragmento anterior
         v.findViewById<Button>(R.id.newLegendConfirm).setOnClickListener{
-            var newLegend = validateForm()
+            val newLegend: Legend? = validateForm()
             if(newLegend != null){
-                legendViewModel.add(newLegend)
+                legendViewModel.add(newLegend!!)
                 fm.popBackStack()
             }
         }
@@ -59,6 +63,12 @@ class AddLegendFragment : Fragment() {
         return v
     }
 
+    /**
+     * Valida los campos del formulario para crear un nuevo personaje. En caso de que alguno
+     * sea incorrecto se mostrará en la interfaz como un mensaje de error
+     *
+     * @return El objeto Legend del nuevo personaje o null si algun campo era incorrecto
+     */
     private fun validateForm(): Legend?{
         val newLegendName = v.findViewById<TextView>(R.id.newLegendName)
 
@@ -73,21 +83,25 @@ class AddLegendFragment : Fragment() {
 
         val newLegendDesc = v.findViewById<TextView>(R.id.newLegendDescription)
 
+        //Comprueba que el nombre no este en blanco
         if(newLegendName.text.isBlank()){
             newLegendName.error = "Legend Name Required"
             return null
         }
 
+        //Comprueba que el arma1 no este en blanco
         if(newLegendWeapon1.text.isEmpty()){
             newLegendWeapon1.error = "Weapon required"
             return null
         }
 
+        //Comprueba que el arma2 no este en blanco
         if(newLegendWeapon1.text.isEmpty()){
             newLegendWeapon2.error = "Weapon required"
             return null
         }
 
+        //Comprueba que las cuatro estadisticas no esten en blanco y que esten entre 1 y 10
         stats.forEach{
             if(it.text.isEmpty() || it.text.toString().toInt() < 1 || it.text.toString().toInt() > 10){
                 it.error = "Introduce a value between [1-10]"

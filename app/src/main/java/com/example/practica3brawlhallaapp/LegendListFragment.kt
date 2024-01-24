@@ -29,9 +29,16 @@ class LegendListFragment : Fragment() {
 
         val recyclerView = v.findViewById<RecyclerView>(R.id.recyclerview)
         var adaptador = LegendRecycleViewAdapter(this.legendViewModel.legends)
+
+        //Al hacer click en uno de los botones de detalles se ejecuta este bloque
         adaptador.click = {position, legend -> run{
             this.legendViewModel.selected = legend
 
+            /*Si la orientacion es vertical se sustituye este fragmento por el fragmento de detalles,
+            y este fragmento pasa a la pila.
+
+            Si la orientacion es horizontal el layout de este fragmento tendrá un fragmentContainerView
+            en el cual mostraremos el fragmento de detalles*/
             if(!resources.getBoolean(R.bool.land)) {
                 fm.commit {
                     replace(R.id.fragmentContainerView, LegendDetailFragment.newInstance())
@@ -41,12 +48,14 @@ class LegendListFragment : Fragment() {
                 val contenedor = v.findViewById<FragmentContainerView>(R.id.detailFragmentContainer)
                 val fragmentManager = childFragmentManager
                 val fragment = fragmentManager.findFragmentById(contenedor?.id ?: -1)
+
                 if(fragment != null && fragment is LegendDetailFragment){
                     (fragment as LegendDetailFragment).update()
                 }
             }
         }}
 
+        //Al hacer click en el boton de añadir personajes pasaremos al fragmento AddLegendFragment
         val addLegend = v.findViewById<FloatingActionButton>(R.id.addLegendButton)
         addLegend.setOnClickListener{
             fm.commit {
@@ -55,8 +64,9 @@ class LegendListFragment : Fragment() {
             }
         }
 
-        val layourManager = GridLayoutManager(this.context, 1)
-        recyclerView.layoutManager = layourManager
+        //Establecemos el tipo de layout y el adaptador del recyclerView
+        val layoutManager = GridLayoutManager(this.context, 1)
+        recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adaptador
         return v
     }
